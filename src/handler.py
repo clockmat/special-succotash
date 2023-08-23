@@ -43,17 +43,17 @@ class Handler:
         CONTENTS_YT = config[f"CONTENTS_{no}_YT"]
         CONTENTS_HTTP = config[f"CONTENTS_{no}_HTTP"]
         CONTENTS_DESC = config[f"CONTENTS_{no}_DESC"]
-        for entry in feed.entries:
+        for _entry in feed.entries:
             entry = {
-                "name": entry.title,
-                "url": entry.link,
+                "name": _entry.title,
+                "url": _entry.link,
             }
             if istrue(CONTENTS_DESC):
-                entry["name"] += f" - {entry.description}"
+                entry["name"] += f" - {_entry.description}"
             if istrue(CONTENTS_YT):
                 entry["youtube_dl"] = True
             if CONTENTS_HTTP:
-                entry["url"] = CONTENTS_HTTP.format(name=entry["name"])
+                entry["url"] = CONTENTS_HTTP.format(name=_entry.title)
             entries.append(entry)
         return entries
 
