@@ -12,8 +12,6 @@ log = logging.getLogger(__name__)
 
 
 def istrue(value):
-    print(value)
-    print(value and value.lower() in ("true", "1", "yes"))
     return value and value.lower() in ("true", "1", "yes")
 
 
