@@ -42,7 +42,7 @@ class Handler:
             log.info(f"{tag} Added to DoodStream")
             return True
         except Exception as err:
-            if "URL already exist in the queue" in err:
+            if "URL already exist in the queue" in str(err):
                 return True
             log.info(f"{tag} Failed to add entry to dood: {err}")
             return False
