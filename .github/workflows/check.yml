@@ -32,7 +32,7 @@ jobs:
               env:
                   ENV: ${{ secrets.ENV }}
               run: |
-                  python3 -m setup.py
+                  python3 setup.py
 
             - name: Download artifact
               uses: dawidd6/action-download-artifact@v2
