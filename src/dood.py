@@ -24,8 +24,8 @@ class DoodStream:
                 sys.exit(1)
 
             elif response["status"] > 399:
-                log.error(response["msg"])
-                sys.exit(1)
+                log.debug(response["msg"])
+                raise Exception(response["msg"])
             else:
                 return response
         except ConnectionError as e:
@@ -39,9 +39,6 @@ class DoodStream:
         return self.req("account/stats")
 
     def remote_upload(self, direct_link, new_name=None, folder_id=None):
-        if self.remaining_slots() == 0:
-            raise Exception("No remote upload slots available")
-
         params = {"url": direct_link}
         if new_name:
             params["new_name"] = new_name

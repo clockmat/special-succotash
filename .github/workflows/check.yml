@@ -48,7 +48,6 @@ jobs:
                   python3 -m src
 
             - name: Upload artifacts
-              if: '!cancelled()'
               uses: actions/upload-artifact@v3
               with:
                   name: entries-data
