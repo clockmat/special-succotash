@@ -38,10 +38,10 @@ class DoodStream:
     def account_reports(self):
         return self.req("account/stats")
 
-    def remote_upload(self, direct_link, new_name=None, folder_id=None):
+    def remote_upload(self, direct_link, new_title=None, folder_id=None):
         params = {"url": direct_link}
-        if new_name:
-            params["new_name"] = new_name
+        if new_title:
+            params["new_title"] = new_title
         if folder_id:
             params["fld_id"] = folder_id
         return self.req(cmd="upload/url", params=params)
