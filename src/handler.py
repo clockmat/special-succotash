@@ -43,6 +43,7 @@ class Handler:
             return True
         except Exception as err:
             if "URL already exist in the queue" in str(err):
+                log.info(f"{tag} URL already exist in the queue")
                 return True
             log.info(f"{tag} Failed to add entry to dood: {err}")
             return False
