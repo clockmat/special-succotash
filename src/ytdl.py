@@ -13,7 +13,7 @@ class YTDL:
         if self.proxies and len(self.proxies) > 0:
             return random.choice(self.proxies)
 
-    def get_download_url(self, link: str) -> str:
+    def get_video_info(self, link: str) -> dict:
         ydl_opts = {}
 
         if self.proxies:
@@ -23,4 +23,7 @@ class YTDL:
 
         yt = YoutubeDL(ydl_opts)
         info = yt.extract_info(link, download=False)
-        return info["url"]
+        return info
+
+    def get_download_url(self, link: str) -> str:
+        return self.get_video_info(link)["url"]

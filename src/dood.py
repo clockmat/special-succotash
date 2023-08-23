@@ -3,6 +3,9 @@ import sys
 from datetime import datetime, timedelta
 
 import requests
+from dotmagic.utils import seconds
+
+from . import config
 
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 log = logging.getLogger(__name__)
@@ -86,11 +89,14 @@ class DoodStream:
 
     def delete_invalid_url_upload(self):
         res = self.req("urlupload/list")
+        max_allowed_time = timedelta(
+            seconds=seconds(config.DOODSTREAM_RETRY_TIME or "3h")
+        )
         for file in res["result"]:
             if file["bytes_total"] > 5000000000 or (
                 file["status"] == "error"
                 and datetime.now() - datetime.fromisoformat(file["created"])
-                > timedelta(hours=3)
+                > max_allowed_time
             ):
                 self.remote_upload_action(delete_code=file["file_code"])
 
