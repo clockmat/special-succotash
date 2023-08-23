@@ -37,7 +37,7 @@ class Handler:
             if entry.youtube_dl:
                 url = self.ytdl.get_download_url(entry.url)
             self.dood.remote_upload(
-                direct_link=url, new_name=self.clean_string(entry.name)
+                direct_link=url, new_title=self.clean_string(entry.name)
             )
             log.info(f"{tag} Added to DoodStream")
             return True
