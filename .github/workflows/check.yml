@@ -1,0 +1,53 @@
+name: Check contents
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+    schedule:
+        - cron: "*/8 * * * *"
+
+concurrency:
+    group: ${{ github.workflow }}
+
+env:
+    DEBUG: ${{ vars.DEBUG }}
+
+jobs:
+    check-content:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: Setup Python
+              uses: actions/setup-python@v4
+
+            - name: Install dependencies
+              run: |
+                  pip install -r requirements.txt -q
+
+            - name: Setup configuration
+              run: |
+                  echo "${{ secrets.ENV }}" > $GITHUB_WORKSPACE/.env
+
+            - name: Download artifact
+              uses: dawidd6/action-download-artifact@v2
+              with:
+                  name: entries-data
+                  workflow_conclusion: ""
+                  check_artifacts: true
+                  if_no_artifact_found: warn
+
+            - name: Run check script
+              timeout-minutes: 60
+              run: |
+                  python3 -m src
+
+            - name: Upload artifacts
+              if: '!cancelled()'
+              uses: actions/upload-artifact@v3
+              with:
+                  name: entries-data
+                  path: entries-data.json
