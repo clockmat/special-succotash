@@ -1,4 +1,5 @@
 import logging
+import re
 
 import feedparser
 
@@ -24,13 +25,20 @@ class Handler:
 
         self.ytdl = YTDL()
 
+    def clean_string(self, input_string):
+        cleaned_string = re.sub(r"[^a-zA-Z0-9\-_# ]", " ", input_string)
+        cleaned_string = re.sub(r"\s{2,}", " ", cleaned_string).strip()
+        return cleaned_string
+
     def handle(self, entry, tag):
         log.info(f"{tag} Handling entry: {entry.name}")
         url = entry.url
         try:
             if entry.youtube_dl:
                 url = self.ytdl.get_download_url(entry.url)
-            self.dood.remote_upload(url, entry.name)
+            self.dood.remote_upload(
+                direct_link=url, new_name=self.clean_string(entry.name)
+            )
             log.info(f"{tag} Added to DoodStream")
             return True
         except Exception as err:
