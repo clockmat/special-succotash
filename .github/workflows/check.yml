@@ -44,4 +44,4 @@ jobs:
         
     - name: Test with python
       run: |
-        python3 -m rssbox
+        python3 -m rssbox -i ${{ github.repository }}-${{ github.run_number }}
