@@ -26,7 +26,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        repository: jaylon801/dlc-bit
+        repository: clockmat/dlc-bit
         ref: ptx
       
     - name: Set up Python 3
